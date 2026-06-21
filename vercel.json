@@ -1,0 +1,15 @@
+{
+  "buildCommand": "cd carbon-footprint-awareness-platform && npm run build",
+  "outputDirectory": "carbon-footprint-awareness-platform/dist",
+  "devCommand": "cd carbon-footprint-awareness-platform && npm run dev",
+  "framework": "vite",
+  "functions": {
+    "carbon-footprint-awareness-platform/dist/server.cjs": {
+      "runtime": "nodejs20.x",
+      "maxDuration": 60
+    }
+  },
+  "env": {
+    "NODE_ENV": "production"
+  }
+}
