@@ -1,0 +1,6 @@
+{
+  "name": "Carbon Footprint Awareness Platform",
+  "description": "Track daily carbon footprints, get AI-powered sustainability coaching, earn badges, and complete daily eco challenges.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
