@@ -1,5 +1,30 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist",
-  "framework": "vite"
+  "version": 2,
+  "buildCommand": "cd carbon-footprint-awareness-platform && npm install && npm run build",
+  "outputDirectory": "carbon-footprint-awareness-platform/dist",
+  "env": {
+    "GEMINI_API_KEY": "@gemini_api_key",
+    "VITE_FIREBASE_API_KEY": "@firebase_api_key",
+    "VITE_FIREBASE_AUTH_DOMAIN": "@firebase_auth_domain",
+    "VITE_FIREBASE_PROJECT_ID": "@firebase_project_id",
+    "VITE_FIREBASE_STORAGE_BUCKET": "@firebase_storage_bucket",
+    "VITE_FIREBASE_MESSAGING_SENDER_ID": "@firebase_messaging_sender_id",
+    "VITE_FIREBASE_APP_ID": "@firebase_app_id",
+    "VITE_FIREBASE_MEASUREMENT_ID": "@firebase_measurement_id"
+  },
+  "functions": {
+    "carbon-footprint-awareness-platform/dist/server.cjs": {
+      "runtime": "nodejs20.x"
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "carbon-footprint-awareness-platform/dist/server.cjs"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "carbon-footprint-awareness-platform/dist/server.cjs"
+    }
+  ]
 }
