@@ -1,19 +1,19 @@
 import express from "express";
 import path from "path";
 import { createServer as createViteServer } from "vite";
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-let aiClient: GoogleGenAI | null = null;
-function getGeminiClient(): GoogleGenAI {
+let aiClient: GoogleGenerativeAI | null = null;
+function getGeminiClient(): GoogleGenerativeAI {
   if (!aiClient) {
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
       throw new Error("GEMINI_API_KEY environment variable is required.");
     }
-    aiClient = new GoogleGenAI({ apiKey });
+    aiClient = new GoogleGenerativeAI(apiKey);
   }
   return aiClient;
 }
@@ -59,12 +59,11 @@ ${chatHistory.map((item: any) => `${item.role === 'user' ? 'User' : 'Coach'}: ${
 Please write your response in beautiful, neat Markdown format. Maintain a warm, wise, upbeat, and practical coaching tone. Avoid overly scientific jargon, and focus on human scale shifts (like switching to LED, batching laundry, trying meatless meals, public transport, etc.).`;
 
       const client = getGeminiClient();
-      const response = await client.models.generateContent({
-        model: "gemini-2.5-flash",
-        contents: [prompt],
-      });
+      const model = client.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const result = await model.generateContent(prompt);
+      const responseText = result.response.text();
 
-      res.json({ response: response.text || "I was unable to analyze your data at this time. Let's keep trying to reduce our footprint together!" });
+      res.json({ response: responseText || "I was unable to analyze your data at this time. Let's keep trying to reduce our footprint together!" });
     } catch (error: any) {
       console.error("Gemini Coach Error:", error);
       res.status(500).json({ error: error.message || "Failed to communicate with AI Coach" });
